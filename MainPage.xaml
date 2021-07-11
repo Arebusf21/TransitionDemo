@@ -1,0 +1,26 @@
+﻿<Page
+    x:Class="TransitionDemo.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:TransitionDemo"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:my="using:Microsoft.UI.Xaml.Controls"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" NavigationCacheMode="Required">
+    
+    <Grid>
+        <GridView x:Name="GridViewDemo" ItemsSource="{Binding Items}" ScrollViewer.HorizontalScrollBarVisibility="Auto" 
+                  Loaded="GridViewDemo_Loaded" DoubleTapped="GridViewDemo_DoubleTapped" 
+                  IsDoubleTapEnabled="True" IsItemClickEnabled="False">
+            <GridView.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel>
+                        <TextBlock Text="{Binding Txt}" />
+                        <Image x:Name="imageView" Source="{Binding ImageUri}" Height="100" Width="200"/>
+                    </StackPanel>
+                </DataTemplate>
+            </GridView.ItemTemplate>
+        </GridView>
+    </Grid>
+</Page>
