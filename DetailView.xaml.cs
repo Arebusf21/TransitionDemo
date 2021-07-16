@@ -1,19 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
-using muxc=Microsoft.UI.Xaml.Controls;
+using System.Threading.Tasks;
+using System.Timers;
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
 namespace TransitionDemo
@@ -24,18 +16,18 @@ namespace TransitionDemo
     public sealed partial class DetailView : Page
     {
 
-#region Field & Object Definitions
+    #region Field & Object Definitions
 
         Uri imageUri;   // Image to view.
 
-#endregion
+    #endregion
 
-        #region Property Definitions
+    #region Property Definitions
         float imageActualHeight { get; set; }
         float imageActualWidth { get; set; }
-        #endregion
+    #endregion
 
-        #region Methods
+    #region Methods
 
         public DetailView()
         {
@@ -48,7 +40,6 @@ namespace TransitionDemo
         /// <returns></returns>
         private bool On_BackRequested()
         {
-
             Frame rootFrame = Window.Current.Content as Frame;
             if (!rootFrame.CanGoBack)
                 return false;
@@ -59,13 +50,34 @@ namespace TransitionDemo
         }
 
         /// <summary>
+        /// Sets the ScrollViewer mode and visibility.
+        /// </summary>
+        /// <param name="mode"></param>
+        /// <param name="visibility"></param>
+        private void SetScrollViewerMode(ScrollMode mode, ScrollBarVisibility visibility)
+        {
+            if (this.scrollViewer != null)
+            {
+                this.scrollViewer.HorizontalScrollMode = mode;
+                this.scrollViewer.HorizontalScrollBarVisibility = visibility;
+                this.scrollViewer.VerticalScrollMode = mode;
+                this.scrollViewer.VerticalScrollBarVisibility = visibility;
+            }
+            return;
+        }
+
+        /// <summary>
         /// Fit the image to the screen size, (Viewport).
         /// </summary>
         public void FitToScreen()
         {
-            float zoomFactor = (float)Math.Min(this.scrollViewer.ActualWidth / this.imageToShow.ActualWidth,
-                this.scrollViewer.ActualHeight / this.imageToShow.ActualHeight);
-            scrollViewer.ChangeView(null, null, zoomFactor);
+            //float zoomFactor = (float)Math.Min(this.scrollViewer.ActualWidth / this.imageToShow.ActualWidth,
+            //    this.scrollViewer.ActualHeight / this.imageToShow.ActualHeight);
+            //scrollViewer.ChangeView(null, null, zoomFactor);
+
+            // May not need to do this once the image is initially loaded.....
+            SetScrollViewerMode(ScrollMode.Disabled, ScrollBarVisibility.Disabled);
+
             return;
         }
 
@@ -74,13 +86,25 @@ namespace TransitionDemo
         /// </summary>
         private void ShowActualSize()
         {
-            scrollViewer.ChangeView(null, null, 1);
+            //scrollViewer.ChangeView(null, null, 1);
+
+            // Set the Zoom factor to show full size and update the view.
+            float zoomFactor = (float)Math.Max(this.bitmapImage.PixelWidth / this.imageToShow.ActualWidth,
+                    this.bitmapImage.PixelHeight / this.imageToShow.ActualHeight);
+            scrollViewer.ChangeView(null, null, zoomFactor);
+
+            // Set the Zoom slider to the new value.
+            ZoomSlider.Value = zoomFactor;
+
+            // Enable scrolling, (May turn scrolling on once the image has been loaded and initially shown).
+            SetScrollViewerMode(ScrollMode.Enabled, ScrollBarVisibility.Auto);
+
             return;
         }
 
-        #endregion
+    #endregion
 
-        #region Event Handlers
+    #region Event Handlers
 
         /// <summary>
         /// Handles the BackButton click event.
@@ -139,7 +163,6 @@ namespace TransitionDemo
             }
         }
         
-      
         /// <summary>
         /// Handles the ScrollViewer loaded event.
         /// </summary>
@@ -147,10 +170,22 @@ namespace TransitionDemo
         /// <param name="e"></param>
         private void ScrollViewer_Loaded(object sender, RoutedEventArgs e)
         {
-            FitToScreen();
             return;
         }
 
-        #endregion
+        /// <summary>
+        /// Handles the Slider Loaded event. 
+        /// Set the initial vale for the slider.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ZoomSlider_Loaded(object sender, RoutedEventArgs e)
+        {
+            Slider slider = sender as Slider;
+            slider.Value = 1;
+        }
+
+    #endregion
+
     }
 }

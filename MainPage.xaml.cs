@@ -1,16 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
 using muxc = Microsoft.UI.Xaml.Controls;
@@ -20,6 +12,15 @@ using muxc = Microsoft.UI.Xaml.Controls;
 /// <summary>
 /// Used to demo a technique for displaying a photo or other image from a GridView to a image view.
 /// Demonstrates Connected Animation from a GridView to an image and back.
+/// Design aims:
+/// Initial view of image in detail view to be scaled to the ScrollViewer viewport size.
+/// Images where the height is greater than the width to be scaled to the ScrollViewer without scroll bars.
+/// Inages to be resized when the Page size is changed by the user.
+/// Showing the image at full size to show scroll bars if bigger than the ScrollViewer viewport.
+/// Zoom control to change size of image, updated to show correct scaling when changing image size to full size and back.
+/// Initial size of image in the ScrollViewer to be set at Zoom factor 1.
+/// The solution appears to be the set the initial state of the ScrollViewer scrollbars as disabled and invisible.
+/// 
 /// Based on: https://docs.microsoft.com/en-us/windows/apps/design/motion/connected-animation
 /// 
 /// </summary>

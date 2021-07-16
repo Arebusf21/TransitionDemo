@@ -28,7 +28,8 @@
                         Value="1"
                         Margin="0,5,0,0"
                         StepFrequency="0.1"
-                        ValueChanged="ZoomSlider_ValueChanged" />
+                        ValueChanged="ZoomSlider_ValueChanged"
+                        Loaded="ZoomSlider_Loaded"/>
                 <Button Content="Fit to screen"
                         Click="{x:Bind FitToScreen}" />
                 <Button Content="Show actual size"
@@ -55,18 +56,16 @@
                           HorizontalAlignment="Right" 
                           Flyout="{StaticResource zoomFlyout}" />
             </CommandBar>
-
             <ScrollViewer x:Name="scrollViewer" Loaded="ScrollViewer_Loaded" ZoomMode="Enabled" 
                           RelativePanel.Below="DetailViewCommandBar" RelativePanel.AlignHorizontalCenterWithPanel="True"
-                          HorizontalScrollMode="Auto" HorizontalScrollBarVisibility="Auto" 
-                          VerticalScrollBarVisibility="Auto"  VerticalScrollMode="Auto" >
+                          HorizontalScrollMode="Disabled"  HorizontalScrollBarVisibility="Disabled"
+                          VerticalScrollBarVisibility="Disabled"  VerticalScrollMode="Disabled">
                 <Image x:Name="imageToShow" Stretch="Uniform">
                     <Image.Source>
                         <BitmapImage x:Name="bitmapImage" UriSource="{x:Bind imageUri}"/>
                     </Image.Source>
                 </Image>
             </ScrollViewer>
-
         </RelativePanel>
     </Grid>
 </Page>
