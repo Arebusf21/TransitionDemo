@@ -25,7 +25,6 @@
                         Width="100"
                         Minimum=".1"
                         Maximum="5"
-                        Value="1"
                         Margin="0,5,0,0"
                         StepFrequency="0.1"
                         ValueChanged="ZoomSlider_ValueChanged"
@@ -39,7 +38,7 @@
     </Page.Resources>
     
     <Grid>
-        <RelativePanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+        <RelativePanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="Auto" Height="Auto">
             <CommandBar x:Name="DetailViewCommandBar"
                     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
                     RelativePanel.AlignLeftWithPanel="True"
@@ -58,9 +57,10 @@
             </CommandBar>
             <ScrollViewer x:Name="scrollViewer" Loaded="ScrollViewer_Loaded" ZoomMode="Enabled" 
                           RelativePanel.Below="DetailViewCommandBar" RelativePanel.AlignHorizontalCenterWithPanel="True"
-                          HorizontalScrollMode="Disabled"  HorizontalScrollBarVisibility="Disabled"
-                          VerticalScrollBarVisibility="Disabled"  VerticalScrollMode="Disabled">
-                <Image x:Name="imageToShow" Stretch="Uniform">
+                          HorizontalScrollMode="Auto"  HorizontalScrollBarVisibility="Disabled"
+                          VerticalScrollMode="Auto" VerticalScrollBarVisibility="Disabled" 
+                          Width="Auto" Height="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
+                <Image x:Name="imageToShow" Stretch="Uniform" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                     <Image.Source>
                         <BitmapImage x:Name="bitmapImage" UriSource="{x:Bind imageUri}"/>
                     </Image.Source>
